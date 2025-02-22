@@ -1,0 +1,207 @@
+[gd_scene load_steps=33 format=3 uid="uid://d3dkj5q6v0ym0"]
+
+[ext_resource type="Texture2D" uid="uid://b33i3spdyyh8e" path="res://Assets/CharacterAnimations/idle_left_00.png" id="1_0nyrl"]
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_o236y"]
+[ext_resource type="Texture2D" uid="uid://dt7d6cyic4k6e" path="res://Assets/CharacterAnimations/left_attack_00.png" id="2_akt0y"]
+[ext_resource type="Texture2D" uid="uid://cxgy7315pnh1c" path="res://Assets/CharacterAnimations/idle_left_01.png" id="2_ue6pu"]
+[ext_resource type="Texture2D" uid="uid://dy8ty2h4xlx7s" path="res://Assets/CharacterAnimations/idle_left_02.png" id="3_caran"]
+[ext_resource type="Texture2D" uid="uid://b4ntb071st552" path="res://Assets/CharacterAnimations/left_attack_01.png" id="3_yhwvs"]
+[ext_resource type="Texture2D" uid="uid://cn86pp8fiw3co" path="res://Assets/CharacterAnimations/left_attack_02.png" id="4_8xtxf"]
+[ext_resource type="Texture2D" uid="uid://fa3mr80ddofy" path="res://Assets/CharacterAnimations/idle_left_03.png" id="4_fkacn"]
+[ext_resource type="Texture2D" uid="uid://d0h0nrvssovkg" path="res://Assets/CharacterAnimations/left_attack_03.png" id="5_l6etp"]
+[ext_resource type="Texture2D" uid="uid://b335c0tmbiosm" path="res://Assets/CharacterAnimations/left_attack_04.png" id="6_cagu3"]
+[ext_resource type="Texture2D" uid="uid://cfyist8wukler" path="res://Assets/CharacterAnimations/left00.png" id="6_rrbwe"]
+[ext_resource type="Texture2D" uid="uid://ddpg8mu2fl8ar" path="res://Assets/CharacterAnimations/adventurer-attack1-00.png" id="7_6cxm1"]
+[ext_resource type="Texture2D" uid="uid://bsnsc1dt7613s" path="res://Assets/CharacterAnimations/left01.png" id="7_wnqtr"]
+[ext_resource type="Texture2D" uid="uid://dittl0mkb1ckb" path="res://Assets/CharacterAnimations/adventurer-attack1-01.png" id="8_acb8l"]
+[ext_resource type="Texture2D" uid="uid://b32n0f23jkmkc" path="res://Assets/CharacterAnimations/left02.png" id="8_ad0pi"]
+[ext_resource type="Texture2D" uid="uid://biv6v17jxmeju" path="res://Assets/CharacterAnimations/left03.png" id="9_5ui2f"]
+[ext_resource type="Texture2D" uid="uid://vrm57ca30wdh" path="res://Assets/CharacterAnimations/adventurer-attack1-02.png" id="9_ri612"]
+[ext_resource type="Texture2D" uid="uid://bfikyf5rj0kvw" path="res://Assets/CharacterAnimations/left04.png" id="10_5e21b"]
+[ext_resource type="Texture2D" uid="uid://ctpnglpmmdc3l" path="res://Assets/CharacterAnimations/adventurer-attack1-03.png" id="10_634k1"]
+[ext_resource type="Texture2D" uid="uid://ccm135tegq1uv" path="res://Assets/CharacterAnimations/adventurer-attack1-04.png" id="11_2f86x"]
+[ext_resource type="Texture2D" uid="uid://c38iarnh6ihyf" path="res://Assets/CharacterAnimations/left05.png" id="11_jbm7j"]
+[ext_resource type="Texture2D" uid="uid://k0tdhnvsv1lg" path="res://Assets/CharacterAnimations/adventurer-run-00.png" id="12_stxrh"]
+[ext_resource type="Texture2D" uid="uid://c05qkyacg2jxf" path="res://Assets/CharacterAnimations/adventurer-run-01.png" id="13_fd7sk"]
+[ext_resource type="Texture2D" uid="uid://dgyw4335d1wx4" path="res://Assets/CharacterAnimations/adventurer-run-02.png" id="14_cuis3"]
+[ext_resource type="Texture2D" uid="uid://bk2da5f0vkmrb" path="res://Assets/CharacterAnimations/adventurer-run-03.png" id="15_a4254"]
+[ext_resource type="Texture2D" uid="uid://bu0ayqeet3fc5" path="res://Assets/CharacterAnimations/adventurer-run-04.png" id="16_cmd14"]
+[ext_resource type="Texture2D" uid="uid://dbbv114bjkakk" path="res://Assets/CharacterAnimations/adventurer-run-05.png" id="17_xfob5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u7abg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_akt0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yhwvs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8xtxf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_l6etp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cagu3")
+}],
+"loop": true,
+"name": &"Attack_Left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_6cxm1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_acb8l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ri612")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_634k1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_2f86x")
+}],
+"loop": true,
+"name": &"Attack_Right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0nyrl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ue6pu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_caran")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fkacn")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_rrbwe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_wnqtr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ad0pi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5ui2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_5e21b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_jbm7j")
+}],
+"loop": true,
+"name": &"Run_Left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_stxrh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_fd7sk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cuis3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_a4254")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_cmd14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_xfob5")
+}],
+"loop": true,
+"name": &"Run_Right",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tghda"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovsdq"]
+size = Vector2(14, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xq822"]
+size = Vector2(246, 60)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dji2k"]
+bg_color = Color(0.772549, 0, 0.117647, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="Enemy" type="CharacterBody2D"]
+position = Vector2(376, 182)
+script = ExtResource("1_o236y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_u7abg")
+animation = &"Attack_Right"
+autoplay = "Idle"
+frame_progress = 0.710348
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_tghda")
+
+[node name="AttackArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(18, 4)
+
+[node name="AttackCollisionShape" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("RectangleShape2D_ovsdq")
+
+[node name="AttackTimer" type="Timer" parent="AttackArea"]
+
+[node name="DetectArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, -12)
+
+[node name="DetectAreaCollision" type="CollisionShape2D" parent="DetectArea"]
+shape = SubResource("RectangleShape2D_xq822")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
+position = Vector2(-10, 17)
+target_position = Vector2(0, 13)
+collision_mask = 6
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -15.0
+offset_top = -20.0
+offset_right = 15.0
+offset_bottom = -14.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_dji2k")
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="HealthBarTimer" type="Timer" parent="HealthBar"]
+
+[connection signal="body_entered" from="AttackArea" to="." method="OnAttackAreaBodyEntered"]
+[connection signal="body_exited" from="AttackArea" to="." method="OnAttackAreaBodyExited"]
+[connection signal="timeout" from="AttackArea/AttackTimer" to="." method="OnAttackTimerTimeout"]
+[connection signal="body_entered" from="DetectArea" to="." method="OnDetectAreaBodyEntered"]
+[connection signal="body_exited" from="DetectArea" to="." method="OnDetectAreaBodyExited"]
+[connection signal="timeout" from="HealthBar/HealthBarTimer" to="." method="OnHealthBarTimerTimeout"]
