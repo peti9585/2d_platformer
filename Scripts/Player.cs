@@ -9,8 +9,8 @@ public partial class Player : CharacterBody2D
     
     private readonly List<string> whiteListedAnimationsList = ["Attack_Left", "Attack_Right", "Idle_Left", "Idle_Right"];
     
-    private const float Friction = 0.3f;
     private const int AttackAreaPosition = 18;
+    private const float Friction = 0.3f;
     
     private bool facingLeft;
     private bool attacking;
