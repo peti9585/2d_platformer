@@ -20,6 +20,7 @@ public partial class Enemy : CharacterBody2D
 	private Vector2 attackAreaPosRight = new(AttackAreaPosition, 4);
 	private Vector2 attackAreaPosLeft = new(-AttackAreaPosition, 4);
 	private Area2D attackArea;
+	private Tween tween;
 
 	#region Built-in functions
 	
@@ -61,10 +62,15 @@ public partial class Enemy : CharacterBody2D
 		health -= damage;
 		healthBar.Value = health;
 
+		if (healthBar.Modulate.A < 1)
+		{
+			healthBar.SetIndexed("modulate:a", 1);
+			tween?.Kill();
+		}
+
 		if (health <= 0)
 		{
-			GD.Print("Enemy died");
-			QueueFree();
+			animatedSprite.Play("Die");
 		}
 
 		ShowHealthBarForSeconds(2);
@@ -117,9 +123,11 @@ public partial class Enemy : CharacterBody2D
 	private async void OnHealthBarTimerTimeout()
 	{
 		healthBarTimer.Stop();
-        
+
+		tween?.Kill();
+
 		GD.Print("le fog allni");
-		var tween = GetTree().CreateTween();
+		tween = GetTree().CreateTween();
 		tween.TweenProperty(healthBar, "modulate:a", 0, 3);
 		await ToSignal(tween, "finished");
         
@@ -175,6 +183,14 @@ public partial class Enemy : CharacterBody2D
 	}
 	
 	#endregion
+
+	private void OnAnimationFinished()
+	{
+		if (animatedSprite.GetAnimation() == "Die")
+		{
+			QueueFree();
+		}
+	}
 	
 	private static float Lerp(float firstFloat, float secondFloat, float by) 
 		=> firstFloat * (1 - by) + secondFloat * by;

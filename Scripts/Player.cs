@@ -82,14 +82,8 @@ public partial class Player : CharacterBody2D
         if (CanMakeMovement("jump"))
         {
             velocity.Y = -300;
-            if (velocity.X < 0)
-            {
-                animatedSprite.Play("Jump_Left");
-            }
-            else
-            {
-                animatedSprite.Play("Jump_Right");
-            }
+            
+            animatedSprite.Play(facingLeft ? "Jump_Left" : "Jump_Right");
         }
         else if (Input.IsActionPressed("left"))
         {
@@ -113,7 +107,7 @@ public partial class Player : CharacterBody2D
                 animatedSprite.Play("Run_Right");
             }
         }
-        else if (CanMakeMovement("attack"))
+        else if (CanMakeMovement("attack") && !attacking)
         {
             GD.Print("Pressed attack");
             
@@ -132,7 +126,7 @@ public partial class Player : CharacterBody2D
     
     private bool CanMakeMovement(string actionPressed)
     {
-        return Input.IsActionJustPressed(actionPressed) && IsOnFloor() && !attacking;
+        return Input.IsActionJustPressed(actionPressed) && IsOnFloor();
     }
     
     #endregion
