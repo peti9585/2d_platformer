@@ -362,7 +362,7 @@ sources/0 = SubResource("TileSetAtlasSource_m6oas")
 script = ExtResource("1_2i5ub")
 
 [node name="Player" parent="." instance=ExtResource("2_c8nb0")]
-position = Vector2(367, 380)
+position = Vector2(275, 376)
 
 [node name="Ground" type="TileMapLayer" parent="."]
 use_parent_material = true
@@ -370,4 +370,4 @@ tile_map_data = PackedByteArray("AAAOABkAAAAEAAIAAAAPABkAAAADAAAAAAANABkAAAADAAI
 tile_set = SubResource("TileSet_dvwxm")
 
 [node name="Enemy" parent="." instance=ExtResource("2_ceyew")]
-position = Vector2(851, 635)
+position = Vector2(846, 620)

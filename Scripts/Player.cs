@@ -18,8 +18,6 @@ public partial class Player : CharacterBody2D
     private Enemy currentEnemy;
     private Timer attackTimer;
     private Area2D attackArea;
-    private Vector2 attackAreaPosRight = new(AttackAreaPosition, 4);
-    private Vector2 attackAreaPosLeft = new(-AttackAreaPosition, 4);
     private AnimatedSprite2D animatedSprite;
     private ProgressBar healthBar;
 
@@ -88,7 +86,7 @@ public partial class Player : CharacterBody2D
         else if (Input.IsActionPressed("left"))
         {
             velocity.X = -200;
-            attackArea.Position = attackAreaPosLeft;
+            attackArea.Position = new Vector2(-AttackAreaPosition, attackArea.Position.Y);
             facingLeft = true;
 
             if (IsOnFloor())
@@ -99,7 +97,7 @@ public partial class Player : CharacterBody2D
         else if (Input.IsActionPressed("right"))
         {
             velocity.X = 200;
-            attackArea.Position = attackAreaPosRight;
+            attackArea.Position = new Vector2(AttackAreaPosition, attackArea.Position.Y);
             facingLeft = false;
 
             if (IsOnFloor())

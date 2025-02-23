@@ -17,10 +17,9 @@ public partial class Enemy : CharacterBody2D
 	private Timer healthBarTimer;
 	private Timer attackTimer;
 	private ProgressBar healthBar;
-	private Vector2 attackAreaPosRight = new(AttackAreaPosition, 4);
-	private Vector2 attackAreaPosLeft = new(-AttackAreaPosition, 4);
 	private Area2D attackArea;
 	private Tween tween;
+	private RayCast2D rayCastToPreventFalling;
 
 	#region Built-in functions
 	
@@ -34,6 +33,7 @@ public partial class Enemy : CharacterBody2D
 		attackTimer = GetNode<Timer>("AttackArea/AttackTimer");
 		healthBar = GetNode<ProgressBar>("HealthBar");
 		attackArea = GetNode<Area2D>("AttackArea");
+		rayCastToPreventFalling = GetNode<RayCast2D>("RayCast2D");
 		
 		healthBar.MaxValue = health;
 		healthBar.Value = health;
@@ -47,9 +47,20 @@ public partial class Enemy : CharacterBody2D
 		Velocity = new Vector2(velocity.X * EnemySpeed, velocity.Y);
 		MoveAndSlide();
 
-		if (isPlayerInEnemyArea)
+		if (isPlayerInEnemyArea && rayCastToPreventFalling.IsColliding() && CanMoveToPlayer())
 		{
 			MoveTowardsPlayer(delta);
+		}
+		else if (!rayCastToPreventFalling.IsColliding())
+		{
+			Velocity = Vector2.Zero;
+			animatedSprite.Play("Idle");
+		}
+
+		if ((player.Position.X < Position.X && rayCastToPreventFalling.Position.X > 0)
+		    || (player.Position.X > Position.X && rayCastToPreventFalling.Position.X < 0))
+		{
+			rayCastToPreventFalling.Position = new Vector2(rayCastToPreventFalling.Position.X * -1, rayCastToPreventFalling.Position.Y);
 		}
 	}
 	
@@ -143,12 +154,12 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (player.Position.X < Position.X)
 		{
-			attackArea.Position = attackAreaPosLeft;
+			attackArea.Position = new Vector2(-AttackAreaPosition, attackArea.Position.Y);
 			animatedSprite.Play("Run_Left");
 		}
 		else
 		{
-			attackArea.Position = attackAreaPosRight;
+			attackArea.Position = new Vector2(AttackAreaPosition, attackArea.Position.Y);
 			animatedSprite.Play("Run_Right");
 		}
 		var velocity = Velocity;
@@ -180,6 +191,12 @@ public partial class Enemy : CharacterBody2D
 			var velocity = Velocity;
 			Velocity = new Vector2(0, velocity.Y);
 		}
+	}
+	
+	private bool CanMoveToPlayer()
+	{
+		return (player.Position.X < Position.X && rayCastToPreventFalling.Position.X < 0) 
+		       || (player.Position.X > Position.X && rayCastToPreventFalling.Position.X > 0);
 	}
 	
 	#endregion
