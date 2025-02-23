@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d3dkj5q6v0ym0"]
+[gd_scene load_steps=38 format=3 uid="uid://d3dkj5q6v0ym0"]
 
 [ext_resource type="Texture2D" uid="uid://b33i3spdyyh8e" path="res://Assets/CharacterAnimations/idle_left_00.png" id="1_0nyrl"]
 [ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_o236y"]
@@ -21,10 +21,15 @@
 [ext_resource type="Texture2D" uid="uid://ctpnglpmmdc3l" path="res://Assets/CharacterAnimations/adventurer-attack1-03.png" id="10_634k1"]
 [ext_resource type="Texture2D" uid="uid://ccm135tegq1uv" path="res://Assets/CharacterAnimations/adventurer-attack1-04.png" id="11_2f86x"]
 [ext_resource type="Texture2D" uid="uid://c38iarnh6ihyf" path="res://Assets/CharacterAnimations/left05.png" id="11_jbm7j"]
+[ext_resource type="Texture2D" uid="uid://c23lee3uxw2e4" path="res://Assets/CharacterAnimations/Die_effect01.png" id="12_p2s4w"]
 [ext_resource type="Texture2D" uid="uid://k0tdhnvsv1lg" path="res://Assets/CharacterAnimations/adventurer-run-00.png" id="12_stxrh"]
 [ext_resource type="Texture2D" uid="uid://c05qkyacg2jxf" path="res://Assets/CharacterAnimations/adventurer-run-01.png" id="13_fd7sk"]
+[ext_resource type="Texture2D" uid="uid://nmwewjo2gvte" path="res://Assets/CharacterAnimations/Die_effect02.png" id="13_vepwe"]
 [ext_resource type="Texture2D" uid="uid://dgyw4335d1wx4" path="res://Assets/CharacterAnimations/adventurer-run-02.png" id="14_cuis3"]
+[ext_resource type="Texture2D" uid="uid://cyqiwiqc17ccf" path="res://Assets/CharacterAnimations/Die_effect03.png" id="14_jggxe"]
 [ext_resource type="Texture2D" uid="uid://bk2da5f0vkmrb" path="res://Assets/CharacterAnimations/adventurer-run-03.png" id="15_a4254"]
+[ext_resource type="Texture2D" uid="uid://cscevum1uoqj2" path="res://Assets/CharacterAnimations/Die_effect04.png" id="15_k6s1d"]
+[ext_resource type="Texture2D" uid="uid://chlf34lcci3e5" path="res://Assets/CharacterAnimations/Die_effect05.png" id="16_8dcb3"]
 [ext_resource type="Texture2D" uid="uid://bu0ayqeet3fc5" path="res://Assets/CharacterAnimations/adventurer-run-04.png" id="16_cmd14"]
 [ext_resource type="Texture2D" uid="uid://dbbv114bjkakk" path="res://Assets/CharacterAnimations/adventurer-run-05.png" id="17_xfob5"]
 
@@ -68,6 +73,26 @@ animations = [{
 }],
 "loop": true,
 "name": &"Attack_Right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_p2s4w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_vepwe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_jggxe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_k6s1d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_8dcb3")
+}],
+"loop": false,
+"name": &"Die",
 "speed": 10.0
 }, {
 "frames": [{
@@ -155,9 +180,8 @@ script = ExtResource("1_o236y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_u7abg")
-animation = &"Attack_Right"
+animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.710348
 
 [node name="EnemyCollision" type="CollisionShape2D" parent="."]
 visible = false
@@ -199,6 +223,7 @@ show_percentage = false
 
 [node name="HealthBarTimer" type="Timer" parent="HealthBar"]
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]
 [connection signal="body_entered" from="AttackArea" to="." method="OnAttackAreaBodyEntered"]
 [connection signal="body_exited" from="AttackArea" to="." method="OnAttackAreaBodyExited"]
 [connection signal="timeout" from="AttackArea/AttackTimer" to="." method="OnAttackTimerTimeout"]
