@@ -208,7 +208,6 @@ shape = SubResource("RectangleShape2D_xq822")
 visible = false
 position = Vector2(-10, 17)
 target_position = Vector2(0, 13)
-collision_mask = 6
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 visible = false
