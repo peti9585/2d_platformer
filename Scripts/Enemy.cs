@@ -10,33 +10,33 @@ public partial class Enemy : CharacterBody2D
 	private const float EnemySpeed = 1.4f;
 	private const int AttackAreaPosition = 18;
 	
-	private int health = 100;
-	private bool isPlayerInEnemyArea;
-	private Player player;
-	private AnimatedSprite2D animatedSprite;
-	private Timer healthBarTimer;
-	private Timer attackTimer;
-	private ProgressBar healthBar;
-	private Area2D attackArea;
-	private Tween tween;
-	private RayCast2D rayCastToPreventFalling;
+	private int _health = 100;
+	private bool _isPlayerInEnemyArea;
+	private Player _player;
+	private AnimatedSprite2D _animatedSprite;
+	private Timer _healthBarTimer;
+	private Timer _attackTimer;
+	private ProgressBar _healthBar;
+	private Area2D _attackArea;
+	private Tween _tween;
+	private RayCast2D _rayCastToPreventFalling;
 
 	#region Built-in functions
 	
 	public override void _Ready()
 	{
-		player = GetTree().Root
+		_player = GetTree().Root
 			.GetNode("Main")
 			.GetNode<Player>("Player");
-		animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		healthBarTimer = GetNode<Timer>("HealthBar/HealthBarTimer");
-		attackTimer = GetNode<Timer>("AttackArea/AttackTimer");
-		healthBar = GetNode<ProgressBar>("HealthBar");
-		attackArea = GetNode<Area2D>("AttackArea");
-		rayCastToPreventFalling = GetNode<RayCast2D>("RayCast2D");
+		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_healthBarTimer = GetNode<Timer>("HealthBar/HealthBarTimer");
+		_attackTimer = GetNode<Timer>("AttackArea/AttackTimer");
+		_healthBar = GetNode<ProgressBar>("HealthBar");
+		_attackArea = GetNode<Area2D>("AttackArea");
+		_rayCastToPreventFalling = GetNode<RayCast2D>("RayCast2D");
 		
-		healthBar.MaxValue = health;
-		healthBar.Value = health;
+		_healthBar.MaxValue = _health;
+		_healthBar.Value = _health;
 	}
 
 	public override void _Process(double delta)
@@ -47,20 +47,20 @@ public partial class Enemy : CharacterBody2D
 		Velocity = new Vector2(velocity.X * EnemySpeed, velocity.Y);
 		MoveAndSlide();
 
-		if (isPlayerInEnemyArea && rayCastToPreventFalling.IsColliding() && CanMoveToPlayer())
+		if (_isPlayerInEnemyArea && _rayCastToPreventFalling.IsColliding() && CanMoveToPlayer())
 		{
 			MoveTowardsPlayer(delta);
 		}
-		else if (!rayCastToPreventFalling.IsColliding())
+		else if (!_rayCastToPreventFalling.IsColliding())
 		{
 			Velocity = Vector2.Zero;
-			animatedSprite.Play("Idle");
+			_animatedSprite.Play("Idle");
 		}
 
-		if ((player.Position.X < Position.X && rayCastToPreventFalling.Position.X > 0)
-		    || (player.Position.X > Position.X && rayCastToPreventFalling.Position.X < 0))
+		if ((_player.Position.X < Position.X && _rayCastToPreventFalling.Position.X > 0)
+		    || (_player.Position.X > Position.X && _rayCastToPreventFalling.Position.X < 0))
 		{
-			rayCastToPreventFalling.Position = new Vector2(rayCastToPreventFalling.Position.X * -1, rayCastToPreventFalling.Position.Y);
+			_rayCastToPreventFalling.Position = new Vector2(_rayCastToPreventFalling.Position.X * -1, _rayCastToPreventFalling.Position.Y);
 		}
 	}
 	
@@ -70,18 +70,18 @@ public partial class Enemy : CharacterBody2D
 
 	public void DamageEnemy(int damage)
 	{
-		health -= damage;
-		healthBar.Value = health;
+		_health -= damage;
+		_healthBar.Value = _health;
 
-		if (healthBar.Modulate.A < 1)
+		if (_healthBar.Modulate.A < 1)
 		{
-			healthBar.SetIndexed("modulate:a", 1);
-			tween?.Kill();
+			_healthBar.SetIndexed("modulate:a", 1);
+			_tween?.Kill();
 		}
 
-		if (health <= 0)
+		if (_health <= 0)
 		{
-			animatedSprite.Play("Die");
+			_animatedSprite.Play("Die");
 		}
 
 		ShowHealthBarForSeconds(2);
@@ -89,33 +89,25 @@ public partial class Enemy : CharacterBody2D
 	
 	private void OnAttackAreaBodyEntered(Node2D body)
 	{
-		if (IsPlayer(body))
-		{
-			isPlayerInEnemyArea = false;
-			if (player.Position.X < Position.X)
-			{
-				animatedSprite.Play("Attack_Left");
-			}
-			else
-			{
-				animatedSprite.Play("Attack_Right");
-			}
-			
-			attackTimer.Start(2);
-		}
+		if (!IsPlayer(body)) return;
+		
+		_isPlayerInEnemyArea = false;
+		_animatedSprite.Play(_player.Position.X < Position.X ? "Attack_Left" : "Attack_Right");
+
+		_attackTimer.Start(2);
 	}
 
 	private void OnAttackTimerTimeout()
 	{
-		player.DamagePlayer(10);
+		_player.DamagePlayer(10);
 	}
 
 	private void OnAttackAreaBodyExited(Node2D body)
 	{
 		if (IsPlayer(body))
 		{
-			attackTimer.Stop();
-			isPlayerInEnemyArea = true;
+			_attackTimer.Stop();
+			_isPlayerInEnemyArea = true;
 		}
 	}
 	
@@ -125,25 +117,24 @@ public partial class Enemy : CharacterBody2D
 	
 	private void ShowHealthBarForSeconds(float seconds)
 	{
-		healthBarTimer.WaitTime = seconds;
-		healthBarTimer.Start();
+		_healthBarTimer.WaitTime = seconds;
+		_healthBarTimer.Start();
         
-		healthBar.Show();
+		_healthBar.Show();
 	}
 
 	private async void OnHealthBarTimerTimeout()
 	{
-		healthBarTimer.Stop();
+		_healthBarTimer.Stop();
 
-		tween?.Kill();
-
-		GD.Print("le fog allni");
-		tween = GetTree().CreateTween();
-		tween.TweenProperty(healthBar, "modulate:a", 0, 3);
-		await ToSignal(tween, "finished");
+		_tween?.Kill();
+		
+		_tween = GetTree().CreateTween();
+		_tween.TweenProperty(_healthBar, "modulate:a", 0, 3);
+		await ToSignal(_tween, "finished");
         
-		healthBar.Hide();
-		healthBar.SetIndexed("modulate:a", 1);
+		_healthBar.Hide();
+		_healthBar.SetIndexed("modulate:a", 1);
 	}
 	
 	#endregion
@@ -152,21 +143,21 @@ public partial class Enemy : CharacterBody2D
 
 	private void MoveTowardsPlayer(double delta)
 	{
-		if (player.Position.X < Position.X)
+		if (_player.Position.X < Position.X)
 		{
-			attackArea.Position = new Vector2(-AttackAreaPosition, attackArea.Position.Y);
-			animatedSprite.Play("Run_Left");
+			_attackArea.Position = new Vector2(-AttackAreaPosition, _attackArea.Position.Y);
+			_animatedSprite.Play("Run_Left");
 		}
 		else
 		{
-			attackArea.Position = new Vector2(AttackAreaPosition, attackArea.Position.Y);
-			animatedSprite.Play("Run_Right");
+			_attackArea.Position = new Vector2(AttackAreaPosition, _attackArea.Position.Y);
+			_animatedSprite.Play("Run_Right");
 		}
 		var velocity = Velocity;
 		velocity.Y += Gravity * (float)delta;
 		velocity.X = Lerp(velocity.X, 0, Friction);
 
-		velocity.X += Position.DirectionTo(player.Position).X;
+		velocity.X += Position.DirectionTo(_player.Position).X;
 		Velocity = new Vector2(velocity.X * EnemySpeed, velocity.Y);
 
 		MoveAndSlide();
@@ -176,7 +167,7 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (IsPlayer(body))
 		{
-			isPlayerInEnemyArea = true;
+			_isPlayerInEnemyArea = true;
 		}
 	}
 
@@ -184,9 +175,9 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (IsPlayer(body))
 		{
-			isPlayerInEnemyArea = false;
+			_isPlayerInEnemyArea = false;
 			
-			animatedSprite.Play("Idle");
+			_animatedSprite.Play("Idle");
 			
 			var velocity = Velocity;
 			Velocity = new Vector2(0, velocity.Y);
@@ -195,18 +186,15 @@ public partial class Enemy : CharacterBody2D
 	
 	private bool CanMoveToPlayer()
 	{
-		return (player.Position.X < Position.X && rayCastToPreventFalling.Position.X < 0) 
-		       || (player.Position.X > Position.X && rayCastToPreventFalling.Position.X > 0);
+		return (_player.Position.X < Position.X && _rayCastToPreventFalling.Position.X < 0) 
+		       || (_player.Position.X > Position.X && _rayCastToPreventFalling.Position.X > 0);
 	}
 	
 	#endregion
 
 	private void OnAnimationFinished()
 	{
-		if (animatedSprite.GetAnimation() == "Die")
-		{
-			QueueFree();
-		}
+		if (_animatedSprite.GetAnimation() == "Die") QueueFree();
 	}
 	
 	private static float Lerp(float firstFloat, float secondFloat, float by) 

@@ -56,7 +56,6 @@ public partial class Player : CharacterBody2D
 
         if (_health <= 0)
         {
-            GD.Print("Game Over");
             GetTree().Paused = true;
         }
     }
@@ -175,7 +174,6 @@ public partial class Player : CharacterBody2D
         if (IsEnemy(body))
         {
             _currentEnemyList.Add((Enemy)body);
-            GD.Print("Current enemies: " + _currentEnemyList.Count);
             SetCanAttackEnemyStatus();
         }
     }
@@ -185,7 +183,6 @@ public partial class Player : CharacterBody2D
         if (IsEnemy(body))
         {
             _currentEnemyList.Remove((Enemy)body);
-            GD.Print("Current enemies: " + _currentEnemyList.Count);
             SetCanAttackEnemyStatus();
         }
     }
