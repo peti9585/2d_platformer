@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://cpg6qfc4tpa1g"]
+[gd_scene load_steps=9 format=4 uid="uid://cpg6qfc4tpa1g"]
 
 [ext_resource type="Script" uid="uid://cv8vve3w64koy" path="res://Scripts/Main.cs" id="1_2i5ub"]
+[ext_resource type="AudioStream" uid="uid://02pj7yde2vqc" path="res://Assets/Music/002_Synthwave_15k.mp3" id="2_21xkr"]
 [ext_resource type="PackedScene" uid="uid://dyoqo5jan0svm" path="res://Scenes/player.tscn" id="2_c8nb0"]
 [ext_resource type="PackedScene" uid="uid://d3dkj5q6v0ym0" path="res://Scenes/enemy.tscn" id="2_ceyew"]
+[ext_resource type="Texture2D" uid="uid://1rtia8tgp8ig" path="res://Assets/Pictures/Background.png" id="2_kry3j"]
 [ext_resource type="Texture2D" uid="uid://c0gdsf4vad7e4" path="res://Assets/Tiles/Assets.png" id="3_1cjqp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m6oas"]
@@ -361,6 +363,10 @@ sources/0 = SubResource("TileSetAtlasSource_m6oas")
 [node name="Main" type="Node2D"]
 script = ExtResource("1_2i5ub")
 
+[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_21xkr")
+autoplay = true
+
 [node name="Player" parent="." instance=ExtResource("2_c8nb0")]
 position = Vector2(275, 376)
 
@@ -371,3 +377,15 @@ tile_set = SubResource("TileSet_dvwxm")
 
 [node name="Enemy" parent="." instance=ExtResource("2_ceyew")]
 position = Vector2(846, 620)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(0.7, 0.7)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(2304, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-37.1428, -38.5714)
+texture = ExtResource("2_kry3j")
+centered = false
