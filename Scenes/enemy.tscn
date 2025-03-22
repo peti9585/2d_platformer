@@ -1,7 +1,7 @@
 [gd_scene load_steps=38 format=3 uid="uid://d3dkj5q6v0ym0"]
 
 [ext_resource type="Texture2D" uid="uid://b33i3spdyyh8e" path="res://Assets/CharacterAnimations/idle_left_00.png" id="1_0nyrl"]
-[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_o236y"]
+[ext_resource type="Script" uid="uid://c2fp3gb7lnsac" path="res://Scripts/Enemy.cs" id="1_o236y"]
 [ext_resource type="Texture2D" uid="uid://dt7d6cyic4k6e" path="res://Assets/CharacterAnimations/left_attack_00.png" id="2_akt0y"]
 [ext_resource type="Texture2D" uid="uid://cxgy7315pnh1c" path="res://Assets/CharacterAnimations/idle_left_01.png" id="2_ue6pu"]
 [ext_resource type="Texture2D" uid="uid://dy8ty2h4xlx7s" path="res://Assets/CharacterAnimations/idle_left_02.png" id="3_caran"]
