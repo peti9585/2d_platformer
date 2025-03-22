@@ -175,7 +175,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="Enemy" type="CharacterBody2D"]
-position = Vector2(376, 182)
+collision_layer = 2
 script = ExtResource("1_o236y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

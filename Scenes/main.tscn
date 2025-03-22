@@ -363,6 +363,18 @@ sources/0 = SubResource("TileSetAtlasSource_m6oas")
 [node name="Main" type="Node2D"]
 script = ExtResource("1_2i5ub")
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(0.7, 0.7)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(3290, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-37.1428, -38.5714)
+texture = ExtResource("2_kry3j")
+centered = false
+
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_21xkr")
 autoplay = true
@@ -376,16 +388,7 @@ tile_map_data = PackedByteArray("AAAOABkAAAAEAAIAAAAPABkAAAADAAAAAAANABkAAAADAAI
 tile_set = SubResource("TileSet_dvwxm")
 
 [node name="Enemy" parent="." instance=ExtResource("2_ceyew")]
-position = Vector2(846, 620)
+position = Vector2(533, 374)
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-scale = Vector2(0.7, 0.7)
-motion_scale = Vector2(0.2, 0.2)
-motion_mirroring = Vector2(3290, 0)
-
-[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2(-37.1428, -38.5714)
-texture = ExtResource("2_kry3j")
-centered = false
+[node name="Enemy2" parent="." instance=ExtResource("2_ceyew")]
+position = Vector2(560, 373)
