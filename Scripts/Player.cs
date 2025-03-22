@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 
 namespace D_Platformer.Scripts;
@@ -146,10 +145,9 @@ public partial class Player : CharacterBody2D
     #endregion
     
     #region Attack-related functions
-
-    // For future use
-    // public int GetPlayerDamage => _damage;
-    // public void SetPlayerDamage(int damage) => _damage = damage;
+    
+    public int GetPlayerDamage() => _damage;
+    public void SetPlayerDamage(int damage) => _damage = damage;
 
     private void Attack()
     {
@@ -160,7 +158,7 @@ public partial class Player : CharacterBody2D
         
         if (!_canAttackEnemy) return;
         
-        foreach (var enemy in _currentEnemyList) enemy.DamageEnemy(40);
+        foreach (var enemy in _currentEnemyList) enemy.DamageEnemy(_damage);
     }
     
     private void AttackTimerOnTimeout()

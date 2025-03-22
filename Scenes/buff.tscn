@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1mm1suu86ate"]
+
+[ext_resource type="Script" uid="uid://wjf1d6snbf77" path="res://Scripts/Buff.cs" id="1_gqlvb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i2ps7"]
+
+[node name="Buff" type="Node2D"]
+script = ExtResource("1_gqlvb")
+
+[node name="BuffBody" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuffBody"]
+shape = SubResource("CircleShape2D_i2ps7")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="BuffBody"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuffBody/Area2D"]
+shape = SubResource("CircleShape2D_i2ps7")
+
+[connection signal="body_entered" from="BuffBody/Area2D" to="." method="OnAreaEntered"]
