@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace D_Platformer.Scripts;
@@ -7,33 +8,34 @@ public partial class Player : CharacterBody2D
 {
     private static readonly float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
     
-    private readonly List<string> whiteListedAnimationsList = ["Attack_Left", "Attack_Right", "Idle_Left", "Idle_Right"];
+    private readonly List<string> _whiteListedAnimationsList = ["Attack_Left", "Attack_Right", "Idle_Left", "Idle_Right"];
     
     private const int AttackAreaPosition = 18;
     private const float Friction = 0.3f;
     
-    private bool facingLeft;
-    private bool attacking;
-    private bool canAttackEnemy;
-    private Enemy currentEnemy;
-    private Timer attackTimer;
-    private Area2D attackArea;
-    private AnimatedSprite2D animatedSprite;
-    private ProgressBar healthBar;
+    private bool _facingLeft;
+    private bool _attacking;
+    private bool _canAttackEnemy;
+    private List<Enemy> _currentEnemyList = [];
+    private Timer _attackTimer;
+    private Area2D _attackArea;
+    private AnimatedSprite2D _animatedSprite;
+    private ProgressBar _healthBar;
 
-    private int health = 100;
+    private int _health = 100;
+    private int _damage = 20;
 
     #region Built-in functions
     
     public override void _Ready()
     {
-        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        attackTimer = GetNode<Timer>("AttackTimer");
-        attackArea = GetNode<Area2D>("AttackArea"); 
-        healthBar = GetNode<ProgressBar>("Camera2D/CanvasLayer/Control/HealthBar");
+        _animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _attackTimer = GetNode<Timer>("AttackTimer");
+        _attackArea = GetNode<Area2D>("AttackArea"); 
+        _healthBar = GetNode<ProgressBar>("Camera2D/CanvasLayer/Control/HealthBar");
         
-        healthBar.MaxValue = health;
-        healthBar.Value = health;
+        _healthBar.MaxValue = _health;
+        _healthBar.Value = _health;
     }
 
     public override void _Process(double delta)
@@ -45,16 +47,15 @@ public partial class Player : CharacterBody2D
 
     #region Health-related functions
     
-    public int GetPlayerHealth() => health;
+    public int GetPlayerHealth() => _health;
 
     public void DamagePlayer(int damage)
     {
-        health -= damage;
-        healthBar.Value = health;
+        _health -= damage;
+        _healthBar.Value = _health;
 
-        if (health <= 0)
+        if (_health <= 0)
         {
-            GD.Print("Game Over");
             GetTree().Paused = true;
         }
     }
@@ -81,41 +82,39 @@ public partial class Player : CharacterBody2D
         {
             velocity.Y = -300;
             
-            animatedSprite.Play(facingLeft ? "Jump_Left" : "Jump_Right");
+            _animatedSprite.Play(_facingLeft ? "Jump_Left" : "Jump_Right");
         }
         else if (Input.IsActionPressed("left"))
         {
             velocity.X = -200;
-            attackArea.Position = new Vector2(-AttackAreaPosition, attackArea.Position.Y);
-            facingLeft = true;
+            _attackArea.Position = new Vector2(-AttackAreaPosition, _attackArea.Position.Y);
+            _facingLeft = true;
 
             if (IsOnFloor())
             {
-                animatedSprite.Play("Run_Left");
+                _animatedSprite.Play("Run_Left");
             }
         }
         else if (Input.IsActionPressed("right"))
         {
             velocity.X = 200;
-            attackArea.Position = new Vector2(AttackAreaPosition, attackArea.Position.Y);
-            facingLeft = false;
+            _attackArea.Position = new Vector2(AttackAreaPosition, _attackArea.Position.Y);
+            _facingLeft = false;
 
             if (IsOnFloor())
             {
-                animatedSprite.Play("Run_Right");
+                _animatedSprite.Play("Run_Right");
             }
         }
-        else if (CanMakeMovement("attack") && !attacking)
+        else if (CanMakeMovement("attack") && !_attacking)
         {
-            GD.Print("Pressed attack");
-            
             Attack();
         }
         else if (IsOnFloor() &&
                  !Input.IsAnythingPressed() &&
-                 !whiteListedAnimationsList.Contains(animatedSprite.Animation))
+                 !_whiteListedAnimationsList.Contains(_animatedSprite.Animation))
         {
-            animatedSprite.Stop();
+            _animatedSprite.Stop();
             PlayIdleAnimation();
         }
 
@@ -141,38 +140,41 @@ public partial class Player : CharacterBody2D
     
     private void PlayIdleAnimation()
     {
-        animatedSprite.Play(facingLeft ? "Idle_Left" : "Idle_Right");
+        _animatedSprite.Play(_facingLeft ? "Idle_Left" : "Idle_Right");
     }
     
     #endregion
     
     #region Attack-related functions
 
+    // For future use
+    // public int GetPlayerDamage => _damage;
+    // public void SetPlayerDamage(int damage) => _damage = damage;
+
     private void Attack()
     {
-        attackTimer.Start();
-        attacking = true;
+        _attackTimer.Start();
+        _attacking = true;
 
-        animatedSprite.Play(facingLeft ? "Attack_Left" : "Attack_Right");
-
-        if (canAttackEnemy)
-        {
-            currentEnemy.DamageEnemy(10);
-        }
+        _animatedSprite.Play(_facingLeft ? "Attack_Left" : "Attack_Right");
+        
+        if (!_canAttackEnemy) return;
+        
+        foreach (var enemy in _currentEnemyList) enemy.DamageEnemy(40);
     }
     
     private void AttackTimerOnTimeout()
     {
-        attacking = false;
-        attackTimer.Stop();
+        _attacking = false;
+        _attackTimer.Stop();
     }
 
     private void AttackCollisionBodyEntered(Node2D body)
     {
         if (IsEnemy(body))
         {
-            currentEnemy = (Enemy)body;
-            canAttackEnemy = true;
+            _currentEnemyList.Add((Enemy)body);
+            SetCanAttackEnemyStatus();
         }
     }
 
@@ -180,9 +182,12 @@ public partial class Player : CharacterBody2D
     {
         if (IsEnemy(body))
         {
-            canAttackEnemy = false;
+            _currentEnemyList.Remove((Enemy)body);
+            SetCanAttackEnemyStatus();
         }
     }
+
+    private void SetCanAttackEnemyStatus() => _canAttackEnemy = _currentEnemyList.Count != 0;
     
     #endregion
 
