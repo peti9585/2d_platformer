@@ -18,4 +18,8 @@ disabled = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BuffBody/Area2D"]
 shape = SubResource("CircleShape2D_i2ps7")
 
+[node name="BuffTimer" type="Timer" parent="."]
+wait_time = 25.0
+
 [connection signal="body_entered" from="BuffBody/Area2D" to="." method="OnAreaEntered"]
+[connection signal="timeout" from="BuffTimer" to="." method="OnBuffTimerTimeout"]
