@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://d1mm1suu86ate"]
+[gd_scene load_steps=6 format=3 uid="uid://d1mm1suu86ate"]
 
 [ext_resource type="Script" uid="uid://wjf1d6snbf77" path="res://Scripts/Buff.cs" id="1_gqlvb"]
+[ext_resource type="Texture2D" uid="uid://bbw3soi3jgteb" path="res://Assets/Pictures/BuffBarUnder.png" id="2_5h5yx"]
+[ext_resource type="Texture2D" uid="uid://c6uutjwusmsxh" path="res://Assets/Pictures/BuffBarOver.png" id="3_tu305"]
+[ext_resource type="Texture2D" uid="uid://de00awrs6wvkw" path="res://Assets/Pictures/BuffBarProgress.png" id="4_4g85s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i2ps7"]
 
@@ -19,7 +22,29 @@ disabled = true
 shape = SubResource("CircleShape2D_i2ps7")
 
 [node name="BuffTimer" type="Timer" parent="."]
-wait_time = 25.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 250.0
+offset_top = 20.0
+offset_right = 290.0
+offset_bottom = 60.0
+
+[node name="BuffTimerProgressBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(2.5, 2.5)
+max_value = 25.0
+value = 9.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("2_5h5yx")
+texture_over = ExtResource("3_tu305")
+texture_progress = ExtResource("4_4g85s")
 
 [connection signal="body_entered" from="BuffBody/Area2D" to="." method="OnAreaEntered"]
 [connection signal="timeout" from="BuffTimer" to="." method="OnBuffTimerTimeout"]
