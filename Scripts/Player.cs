@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
     private Timer _attackTimer;
     private Area2D _attackArea;
     private AnimatedSprite2D _animatedSprite;
-    private ProgressBar _healthBar;
+    private TextureProgressBar _healthBar;
 
     private int _health = 100;
     private int _damage = 20;
@@ -31,7 +31,7 @@ public partial class Player : CharacterBody2D
         _animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _attackTimer = GetNode<Timer>("AttackTimer");
         _attackArea = GetNode<Area2D>("AttackArea"); 
-        _healthBar = GetNode<ProgressBar>("Camera2D/CanvasLayer/Control/HealthBar");
+        _healthBar = GetNode<TextureProgressBar>("Camera2D/CanvasLayer/Control/HealthBar");
         
         _healthBar.MaxValue = _health;
         _healthBar.Value = _health;

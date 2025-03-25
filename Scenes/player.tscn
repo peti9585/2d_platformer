@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://dyoqo5jan0svm"]
+[gd_scene load_steps=46 format=3 uid="uid://dyoqo5jan0svm"]
 
 [ext_resource type="Script" uid="uid://ds24bnfpnwmay" path="res://Scripts/Player.cs" id="1_6qj05"]
 [ext_resource type="Texture2D" uid="uid://c0k7skjxi738a" path="res://Assets/CharacterAnimations/adventurer-idle-2-00.png" id="2_mr50l"]
@@ -39,6 +39,9 @@
 [ext_resource type="Texture2D" uid="uid://bk2da5f0vkmrb" path="res://Assets/CharacterAnimations/adventurer-run-03.png" id="23_q47u8"]
 [ext_resource type="Texture2D" uid="uid://bu0ayqeet3fc5" path="res://Assets/CharacterAnimations/adventurer-run-04.png" id="24_usm6b"]
 [ext_resource type="Texture2D" uid="uid://dbbv114bjkakk" path="res://Assets/CharacterAnimations/adventurer-run-05.png" id="25_uhn4x"]
+[ext_resource type="Texture2D" uid="uid://bcibyrhgvcg5p" path="res://Assets/Pictures/HealthBarUnder.png" id="40_ph33w"]
+[ext_resource type="Texture2D" uid="uid://j0hwjglqh1r3" path="res://Assets/Pictures/HealthBarOver.png" id="41_7ldla"]
+[ext_resource type="Texture2D" uid="uid://byst2cij2wjty" path="res://Assets/Pictures/HealthBar.png" id="42_r7t2e"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gt5tm"]
 animations = [{
@@ -210,13 +213,6 @@ height = 28.8461
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ilw7a"]
 size = Vector2(14, 28)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7mh7"]
-bg_color = Color(0.770728, 0, 0.11957, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 3
 script = ExtResource("1_6qj05")
@@ -259,18 +255,17 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="HealthBar" type="ProgressBar" parent="Camera2D/CanvasLayer/Control"]
-layout_direction = 1
-layout_mode = 1
-offset_left = 6.0
-offset_top = 6.0
-offset_right = 206.0
-offset_bottom = 46.0
-size_flags_horizontal = 0
-theme_override_styles/fill = SubResource("StyleBoxFlat_h7mh7")
-step = 1.0
+[node name="HealthBar" type="TextureProgressBar" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -59.0
+offset_right = 48.0
+offset_bottom = 5.0
+scale = Vector2(3.5, 3.5)
 value = 60.0
-show_percentage = false
+texture_under = ExtResource("40_ph33w")
+texture_over = ExtResource("41_7ldla")
+texture_progress = ExtResource("42_r7t2e")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]
 [connection signal="timeout" from="AttackTimer" to="." method="AttackTimerOnTimeout"]

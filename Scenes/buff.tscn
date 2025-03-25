@@ -162,13 +162,13 @@ frame_progress = 0.527438
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 250.0
-offset_top = 20.0
-offset_right = 290.0
-offset_bottom = 60.0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 100.0
 
 [node name="BuffTimerProgressBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
-layout_mode = 0
+layout_mode = 1
 offset_right = 40.0
 offset_bottom = 40.0
 scale = Vector2(2.5, 2.5)
