@@ -12,6 +12,7 @@ public partial class Buff : Node2D
     private Timer _buffTimer;
     private Player _player;
     private TextureProgressBar _buffTimerProgressBar;
+    private StaticBody2D _buffBody;
     private int _playerDamageBeforeBoost;
     private int _buffDurationCounter;
         
@@ -22,12 +23,9 @@ public partial class Buff : Node2D
         _buffArea = GetNode<Area2D>("BuffBody/Area2D");
         _buffTimer = GetNode<Timer>("BuffTimer");
         _buffTimerProgressBar = GetNode<TextureProgressBar>("CanvasLayer/Control/BuffTimerProgressBar");
+        _buffBody = GetNode<StaticBody2D>("BuffBody");
 
         _buffTimerProgressBar.Visible = false;
-    }
-
-    public override void _Process(double delta)
-    {
     }
     
     #endregion
@@ -46,12 +44,15 @@ public partial class Buff : Node2D
 
         _buffDurationInSeconds = (int)_buffTimerProgressBar.MaxValue;
         _buffTimer.Start();
+        
         _buffTimerProgressBar.Visible = true;
         _buffTimerProgressBar.Value = _buffTimerProgressBar.MaxValue;
         
-        GD.Print(player.GetPlayerDamage());
+        // To hide the whole sword after the player picks up the buff
+        _buffBody.Visible = false;
     }
 
+    // This is called every second to adjust the ProgressBar value
     private void OnBuffTimerTimeout()
     {
         _buffDurationCounter++;
