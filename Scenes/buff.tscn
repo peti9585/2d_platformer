@@ -153,7 +153,7 @@ shape = SubResource("CircleShape2D_i2ps7")
 sprite_frames = SubResource("SpriteFrames_5h5yx")
 animation = &"SwordMovement"
 autoplay = "SwordMovement"
-frame_progress = 0.922907
+frame_progress = 0.527438
 
 [node name="BuffTimer" type="Timer" parent="."]
 
@@ -173,7 +173,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 scale = Vector2(2.5, 2.5)
 max_value = 25.0
-value = 9.0
+value = 5.0
 fill_mode = 4
 nine_patch_stretch = true
 texture_under = ExtResource("2_5h5yx")
