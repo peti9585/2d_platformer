@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cpg6qfc4tpa1g"]
+[gd_scene load_steps=10 format=4 uid="uid://cpg6qfc4tpa1g"]
 
 [ext_resource type="Script" uid="uid://cv8vve3w64koy" path="res://Scripts/Main.cs" id="1_2i5ub"]
 [ext_resource type="AudioStream" uid="uid://02pj7yde2vqc" path="res://Assets/Music/002_Synthwave_15k.mp3" id="2_21xkr"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d3dkj5q6v0ym0" path="res://Scenes/enemy.tscn" id="2_ceyew"]
 [ext_resource type="Texture2D" uid="uid://1rtia8tgp8ig" path="res://Assets/Pictures/Background.png" id="2_kry3j"]
 [ext_resource type="Texture2D" uid="uid://c0gdsf4vad7e4" path="res://Assets/Tiles/Assets.png" id="3_1cjqp"]
+[ext_resource type="PackedScene" uid="uid://d1mm1suu86ate" path="res://Scenes/buff.tscn" id="7_6bp64"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m6oas"]
 texture = ExtResource("3_1cjqp")
@@ -388,7 +389,7 @@ tile_map_data = PackedByteArray("AAAOABkAAAAEAAIAAAAPABkAAAADAAAAAAANABkAAAADAAI
 tile_set = SubResource("TileSet_dvwxm")
 
 [node name="Enemy" parent="." instance=ExtResource("2_ceyew")]
-position = Vector2(533, 374)
+position = Vector2(605, 381)
 
-[node name="Enemy2" parent="." instance=ExtResource("2_ceyew")]
-position = Vector2(560, 373)
+[node name="Buff" parent="." instance=ExtResource("7_6bp64")]
+position = Vector2(476, 662)
