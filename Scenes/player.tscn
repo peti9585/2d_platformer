@@ -257,9 +257,9 @@ offset_bottom = 40.0
 
 [node name="HealthBar" type="TextureProgressBar" parent="Camera2D/CanvasLayer/Control"]
 layout_mode = 0
-offset_left = -16.0
+offset_left = -25.0
 offset_top = -59.0
-offset_right = 48.0
+offset_right = 39.0
 offset_bottom = 5.0
 scale = Vector2(3.5, 3.5)
 value = 60.0
