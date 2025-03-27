@@ -7,7 +7,7 @@ public partial class Enemy : CharacterBody2D
 	private static readonly float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	
 	private const float Friction = 0.3f;
-	private const float EnemySpeed = 1.4f;
+	private const float EnemySpeed = 1.3f;
 	private const int AttackAreaPosition = 18;
 	
 	private int _health = 100;
@@ -20,6 +20,9 @@ public partial class Enemy : CharacterBody2D
 	private Area2D _attackArea;
 	private Tween _tween;
 	private RayCast2D _rayCastToPreventFalling;
+
+	[Export]
+	public int EnemyDamage;
 
 	#region Built-in functions
 	
@@ -99,7 +102,7 @@ public partial class Enemy : CharacterBody2D
 
 	private void OnAttackTimerTimeout()
 	{
-		_player.DamagePlayer(10);
+		_player.DamagePlayer(EnemyDamage);
 	}
 
 	private void OnAttackAreaBodyExited(Node2D body)
