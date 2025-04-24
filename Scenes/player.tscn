@@ -1,6 +1,6 @@
 [gd_scene load_steps=46 format=3 uid="uid://dyoqo5jan0svm"]
 
-[ext_resource type="Script" uid="uid://ds24bnfpnwmay" path="res://Scripts/Player.cs" id="1_6qj05"]
+[ext_resource type="Script" uid="uid://buah0j617c6cu" path="res://Scripts/Character/Player.cs" id="1_ph33w"]
 [ext_resource type="Texture2D" uid="uid://c0k7skjxi738a" path="res://Assets/CharacterAnimations/adventurer-idle-2-00.png" id="2_mr50l"]
 [ext_resource type="Texture2D" uid="uid://dt7d6cyic4k6e" path="res://Assets/CharacterAnimations/left_attack_00.png" id="2_oh0iw"]
 [ext_resource type="Texture2D" uid="uid://ddpg8mu2fl8ar" path="res://Assets/CharacterAnimations/adventurer-attack1-00.png" id="2_oq7u7"]
@@ -215,7 +215,7 @@ size = Vector2(14, 28)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 3
-script = ExtResource("1_6qj05")
+script = ExtResource("1_ph33w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

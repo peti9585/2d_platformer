@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgyc1tddawhe1"
-path="res://.godot/imported/SkeletonRun.png-384673d5946eae62af0138d0b01ed96e.ctex"
+uid="uid://b3mvjthiq2syj"
+path="res://.godot/imported/SkeletonAttackRight.png-2313165e879ca0ca9e7e54b05d19fac8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Pictures/SkeletonRun.png"
-dest_files=["res://.godot/imported/SkeletonRun.png-384673d5946eae62af0138d0b01ed96e.ctex"]
+source_file="res://Assets/CharacterAnimations/SkeletonAttackRight.png"
+dest_files=["res://.godot/imported/SkeletonAttackRight.png-2313165e879ca0ca9e7e54b05d19fac8.ctex"]
 
 [params]
 
