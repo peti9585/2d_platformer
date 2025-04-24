@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -13,13 +14,13 @@ public partial class Player : CharacterBody2D
     private const float Friction = 0.3f;
     
     private bool _facingLeft;
-    private bool _attacking;
     private bool _canAttackEnemy;
     private List<Enemy> _currentEnemyList = [];
     private Timer _attackTimer;
     private Area2D _attackArea;
     private AnimatedSprite2D _animatedSprite;
     private TextureProgressBar _healthBar;
+    private CharacterState _state = CharacterState.Idle;
 
     private int _health = 100;
     private int _damage = 20;
@@ -66,11 +67,11 @@ public partial class Player : CharacterBody2D
     private void MovePlayerBasedOnInput(double delta)
     {
         var velocity = Velocity;
-
         velocity.Y += Gravity * (float)delta;
         velocity.X = Lerp(velocity.X, 0, Friction);
 
         Velocity = GetInput(velocity);
+        CharacterAnimationHandler.PlayAnimationBasedOnCharacterState(_state, _animatedSprite, _facingLeft);
 
         MoveAndSlide();
     }
@@ -79,9 +80,8 @@ public partial class Player : CharacterBody2D
     {
         if (CanMakeMovement("jump"))
         {
+            _state = CharacterState.Jumping;
             velocity.Y = -300;
-            
-            _animatedSprite.Play(_facingLeft ? "Jump_Left" : "Jump_Right");
         }
         else if (Input.IsActionPressed("left"))
         {
@@ -91,7 +91,7 @@ public partial class Player : CharacterBody2D
 
             if (IsOnFloor())
             {
-                _animatedSprite.Play("Run_Left");
+                _state = CharacterState.Running;
             }
         }
         else if (Input.IsActionPressed("right"))
@@ -102,10 +102,10 @@ public partial class Player : CharacterBody2D
 
             if (IsOnFloor())
             {
-                _animatedSprite.Play("Run_Right");
+                _state = CharacterState.Running;
             }
         }
-        else if (CanMakeMovement("attack") && !_attacking)
+        else if (CanMakeMovement("attack") && _state != CharacterState.Attacking)
         {
             Attack();
         }
@@ -114,16 +114,14 @@ public partial class Player : CharacterBody2D
                  !_whiteListedAnimationsList.Contains(_animatedSprite.Animation))
         {
             _animatedSprite.Stop();
-            PlayIdleAnimation();
+            _state = CharacterState.Idle;
         }
 
         return velocity;
     }
-    
-    private bool CanMakeMovement(string actionPressed)
-    {
-        return Input.IsActionJustPressed(actionPressed) && IsOnFloor();
-    }
+
+    private bool CanMakeMovement(string action)
+        => Input.IsActionPressed(action) && _state is CharacterState.Idle or CharacterState.Running;
     
     #endregion
     
@@ -133,13 +131,8 @@ public partial class Player : CharacterBody2D
     {
         if (IsOnFloor())
         {
-            PlayIdleAnimation();
+            _state = CharacterState.Idle;
         }
-    }
-    
-    private void PlayIdleAnimation()
-    {
-        _animatedSprite.Play(_facingLeft ? "Idle_Left" : "Idle_Right");
     }
     
     #endregion
@@ -152,9 +145,7 @@ public partial class Player : CharacterBody2D
     private void Attack()
     {
         _attackTimer.Start();
-        _attacking = true;
-
-        _animatedSprite.Play(_facingLeft ? "Attack_Left" : "Attack_Right");
+        _state = CharacterState.Attacking;
         
         if (!_canAttackEnemy) return;
         
@@ -163,7 +154,7 @@ public partial class Player : CharacterBody2D
     
     private void AttackTimerOnTimeout()
     {
-        _attacking = false;
+        _state = CharacterState.Idle;
         _attackTimer.Stop();
     }
 

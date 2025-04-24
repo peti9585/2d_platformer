@@ -20,6 +20,7 @@ public partial class Enemy : CharacterBody2D
 	private Area2D _attackArea;
 	private Tween _tween;
 	private RayCast2D _rayCastToPreventFalling;
+	private CharacterState _enemyState = CharacterState.Idle;
 
 	[Export]
 	public int EnemyDamage;
@@ -57,7 +58,6 @@ public partial class Enemy : CharacterBody2D
 		else if (!_rayCastToPreventFalling.IsColliding())
 		{
 			Velocity = Vector2.Zero;
-			_animatedSprite.Play("Idle");
 		}
 
 		if ((_player.Position.X < Position.X && _rayCastToPreventFalling.Position.X > 0)
@@ -65,6 +65,7 @@ public partial class Enemy : CharacterBody2D
 		{
 			_rayCastToPreventFalling.Position = new Vector2(_rayCastToPreventFalling.Position.X * -1, _rayCastToPreventFalling.Position.Y);
 		}
+		CharacterAnimationHandler.PlayAnimationBasedOnCharacterState(_enemyState, _animatedSprite, _player.Position.X < Position.X);
 	}
 	
 	#endregion
@@ -82,10 +83,7 @@ public partial class Enemy : CharacterBody2D
 			_tween?.Kill();
 		}
 
-		if (_health <= 0)
-		{
-			_animatedSprite.Play("Die");
-		}
+		if (_health <= 0) _enemyState = CharacterState.Dead;
 
 		ShowHealthBarForSeconds(2);
 	}
@@ -95,7 +93,7 @@ public partial class Enemy : CharacterBody2D
 		if (!IsPlayer(body)) return;
 		
 		_isPlayerInEnemyArea = false;
-		_animatedSprite.Play(_player.Position.X < Position.X ? "Attack_Left" : "Attack_Right");
+		_enemyState = CharacterState.Attacking;
 
 		_attackTimer.Start(2);
 	}
@@ -146,16 +144,12 @@ public partial class Enemy : CharacterBody2D
 
 	private void MoveTowardsPlayer(double delta)
 	{
-		if (_player.Position.X < Position.X)
-		{
-			_attackArea.Position = new Vector2(-AttackAreaPosition, _attackArea.Position.Y);
-			_animatedSprite.Play("Run_Left");
-		}
-		else
-		{
-			_attackArea.Position = new Vector2(AttackAreaPosition, _attackArea.Position.Y);
-			_animatedSprite.Play("Run_Right");
-		}
+		_enemyState = CharacterState.Running;
+		
+		_attackArea.Position = _player.Position.X < Position.X ?
+			new Vector2(-AttackAreaPosition, _attackArea.Position.Y) :
+			new Vector2(AttackAreaPosition, _attackArea.Position.Y);
+		
 		var velocity = Velocity;
 		velocity.Y += Gravity * (float)delta;
 		velocity.X = Lerp(velocity.X, 0, Friction);
@@ -178,9 +172,8 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (IsPlayer(body))
 		{
+			_enemyState = CharacterState.Idle;
 			_isPlayerInEnemyArea = false;
-			
-			_animatedSprite.Play("Idle");
 			
 			var velocity = Velocity;
 			Velocity = new Vector2(0, velocity.Y);
@@ -197,7 +190,7 @@ public partial class Enemy : CharacterBody2D
 
 	private void OnAnimationFinished()
 	{
-		if (_animatedSprite.GetAnimation() == "Die") QueueFree();
+		if (_enemyState == CharacterState.Dead) QueueFree();
 	}
 	
 	private static float Lerp(float firstFloat, float secondFloat, float by) 
