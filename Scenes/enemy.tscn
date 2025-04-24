@@ -1,6 +1,6 @@
 [gd_scene load_steps=44 format=3 uid="uid://d3dkj5q6v0ym0"]
 
-[ext_resource type="Script" uid="uid://c2fp3gb7lnsac" path="res://Scripts/Enemy.cs" id="1_o236y"]
+[ext_resource type="Script" uid="uid://05pbtewctf0e" path="res://Scripts/Character/Enemy.cs" id="1_56vhr"]
 [ext_resource type="Texture2D" uid="uid://biked8i7rhpbx" path="res://Assets/CharacterAnimations/SkeletonAttack.png" id="2_56vhr"]
 [ext_resource type="Texture2D" uid="uid://b3mvjthiq2syj" path="res://Assets/CharacterAnimations/SkeletonAttackRight.png" id="3_ta2yt"]
 [ext_resource type="Texture2D" uid="uid://dw776xer182y1" path="res://Assets/CharacterAnimations/SkeletonEnemy.png" id="9_m4x7e"]
@@ -265,7 +265,7 @@ corner_radius_bottom_left = 3
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
-script = ExtResource("1_o236y")
+script = ExtResource("1_56vhr")
 EnemyDamage = 20
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

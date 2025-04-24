@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -68,7 +67,7 @@ public partial class Player : CharacterBody2D
     {
         var velocity = Velocity;
         velocity.Y += Gravity * (float)delta;
-        velocity.X = Lerp(velocity.X, 0, Friction);
+        velocity.X = CharacterBaseHandler.Lerp(velocity.X, 0, Friction);
 
         Velocity = GetInput(velocity);
         CharacterAnimationHandler.PlayAnimationBasedOnCharacterState(_state, _animatedSprite, _facingLeft);
@@ -105,7 +104,7 @@ public partial class Player : CharacterBody2D
                 _state = CharacterState.Running;
             }
         }
-        else if (CanMakeMovement("attack") && _state != CharacterState.Attacking)
+        else if (CanMakeMovement("attack"))
         {
             Attack();
         }
@@ -160,7 +159,7 @@ public partial class Player : CharacterBody2D
 
     private void AttackCollisionBodyEntered(Node2D body)
     {
-        if (IsEnemy(body))
+        if (CharacterBaseHandler.IsTargetNode(body, Constants.Enemy))
         {
             _currentEnemyList.Add((Enemy)body);
             SetCanAttackEnemyStatus();
@@ -169,7 +168,7 @@ public partial class Player : CharacterBody2D
 
     private void AttackCollisionBodyExited(Node2D body)
     {
-        if (IsEnemy(body))
+        if (CharacterBaseHandler.IsTargetNode(body, Constants.Enemy))
         {
             _currentEnemyList.Remove((Enemy)body);
             SetCanAttackEnemyStatus();
@@ -179,10 +178,4 @@ public partial class Player : CharacterBody2D
     private void SetCanAttackEnemyStatus() => _canAttackEnemy = _currentEnemyList.Count != 0;
     
     #endregion
-
-    private static bool IsEnemy(Node2D body)
-        => body.Name.ToString().Contains("Enemy");
-    
-    private static float Lerp(float firstFloat, float secondFloat, float by)
-        => firstFloat * (1 - by) + secondFloat * by;
 }
